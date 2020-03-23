@@ -3,6 +3,8 @@ use log::*;
 use std::env;
 use std::io;
 use std::io::{Read, Write};
+use std::thread;
+use std::time::Duration;
 
 fn main() -> Result<(), io::Error> {
     let mut builder = Builder::new();
@@ -23,11 +25,15 @@ fn main() -> Result<(), io::Error> {
 
         debug!("[{}] received line: \"{}\"", count, line);
         if line == "exit" {
+            debug!("exiting!");
             break;
         }
         if n == 0 {
-            debug!("stdin input had len 0...exiting");
-            return Ok(());
+            debug!("stdin input had len 0...");
+            if count >= 10 {
+                debug!("exiting after {} retries", count);
+                break;
+            }
         }
 
         // Write the line to stdout.
@@ -37,6 +43,7 @@ fn main() -> Result<(), io::Error> {
         stdout.flush().unwrap();
         line.clear();
         count += 1;
+        thread::sleep(Duration::from_millis(500));
     }
     Ok(())
 }
