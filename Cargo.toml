@@ -1,0 +1,11 @@
+[package]
+name = "process_client"
+version = "0.1.0"
+authors = ["Oliver Mueller <oliver.mueller@esrlabs.com>"]
+edition = "2018"
+
+[dependencies]
+subprocess = "0.2"
+log = "0.4"
+env_logger = "0.7"
+async-std = {version = "1.5", features = ["attributes"]}
